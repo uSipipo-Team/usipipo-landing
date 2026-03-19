@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Status - uSipipo VPN{% endblock %}
+
+{% block content %}
+<section class="status">
+    <div class="container">
+        <h2>Estado del Servicio</h2>
+
+        <div class="status-overview">
+            <div class="status-indicator status-ok">
+                <span class="status-dot"></span>
+                <span class="status-text">Todos los sistemas operativos</span>
+            </div>
+        </div>
+
+        <div class="services-status">
+            <div class="service">
+                <div class="service-name">Backend API</div>
+                <div class="service-status status-ok">Operativo</div>
+            </div>
+
+            <div class="service">
+                <div class="service-name">Telegram Bot</div>
+                <div class="service-status status-ok">Operativo</div>
+            </div>
+
+            <div class="service">
+                <div class="service-name">Mini App</div>
+                <div class="service-status status-ok">Operativo</div>
+            </div>
+
+            <div class="service">
+                <div class="service-name">WireGuard Servers</div>
+                <div class="service-status status-ok">Operativo</div>
+            </div>
+
+            <div class="service">
+                <div class="service-name">Outline Servers</div>
+                <div class="service-status status-ok">Operativo</div>
+            </div>
+        </div>
+
+        <div class="incidents">
+            <h3>Incidentes Recientes</h3>
+            <p class="no-incidents">No hay incidentes reportados en los últimos 30 días.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
