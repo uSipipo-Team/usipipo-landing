@@ -1,0 +1,64 @@
+# =============================================================================
+# uSipipo Landing - Systemd Service
+# =============================================================================
+# Production-ready service configuration with security hardening
+# =============================================================================
+
+[Unit]
+Description=uSipipo VPN Landing Page Service
+Documentation=https://github.com/uSipipo-Team/usipipo-landing
+After=network.target
+
+[Service]
+Type=exec
+
+# User and Group
+User=mowgli
+Group=mowgli
+
+# Working Directory
+WorkingDirectory=/home/mowgli/usipipo/usipipo-landing
+
+# Environment Configuration
+Environment="PATH=/home/mowgli/usipipo/usipipo-landing/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="VIRTUAL_ENV=/home/mowgli/usipipo/usipipo-landing/.venv"
+EnvironmentFile=/home/mowgli/usipipo/usipipo-landing/.env
+
+# Main Process
+# Flask application (development server for simplicity)
+# For production with high traffic, consider gunicorn:
+# ExecStart=/home/mowgli/usipipo/usipipo-landing/.venv/bin/gunicorn --bind 0.0.0.0:5000 --workers 2 src.infrastructure.web.app:app
+ExecStart=/home/mowgli/usipipo/usipipo-landing/.venv/bin/python -m src
+
+# Graceful Shutdown
+# Allows in-flight requests to complete before termination
+TimeoutStopSec=30
+KillMode=mixed
+KillSignal=SIGTERM
+
+# Restart Policy
+# Always restart on failure or clean exit
+Restart=always
+RestartSec=10
+
+# Security Hardening
+# See systemd.exec(5) for detailed documentation
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=false
+ReadWritePaths=/home/mowgli/usipipo/usipipo-landing/logs
+
+# Resource Limits
+# Prevent resource exhaustion attacks
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Logging
+# Output goes to systemd journal (view with: journalctl -u usipipo-landing)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=usipipo-landing
+
+[Install]
+WantedBy=multi-user.target
